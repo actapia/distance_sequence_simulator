@@ -65,6 +65,9 @@ class Simulation:
         self.seqid_template = seqid_template
         self.separate_dirs = separate_dirs
         self.coverage_distribution = coverage_distribution
+        self.taxa = taxa
+        self.out_dir = out_dir
+        self.jobs = jobs
 
     def rand_init(self):
         self.rand = random.Random()
