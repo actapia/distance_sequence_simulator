@@ -102,11 +102,12 @@ class SimulationConfig:
         }
     }
     
-    def __init__(self, default_config=None):
+    def __init__(self, default_config=None, simulation_class=Simulation):
         if default_config is None:
             default_config = {}
         self.config = {}
         self.default_config = default_config
+        self.simulation_class = simulation_class
         
     def _make_parser(self):
         parser = argparse.ArgumentParser()
@@ -198,6 +199,7 @@ class SimulationConfig:
             self.config["jobs"] = (
                 (self.config["jobs"] - 1)%multiprocessing.cpu_count()
             ) + 1
+        self.config.setdefault("taxa_prefix", "T")
         # Load functions.
         self._handle_load_functions()
 
@@ -219,9 +221,10 @@ class SimulationConfig:
         self._post_cli()
 
     def make_simulation(self):
-        sim = Simulation()
+        sim = self.simulation_class()
         for k, v in self.config.items():
             setattr(sim, k, v)
+        sim.config = self
         return sim
 
     # def _load_config(self):

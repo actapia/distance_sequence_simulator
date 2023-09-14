@@ -11,7 +11,7 @@ from typing import Callable, Optional, Union, TextIO, Iterable
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
-from dendropy import Tree, Taxon
+from dendropy import Tree, Taxon, TaxonNamespace
 from joblib import Parallel, delayed
 
 try:
@@ -19,7 +19,13 @@ try:
 except ImportError:
     tqdm = lambda x: x
 
-def seeded_generate_sequences(generate_chars, tree, seq_len_dist, seed):
+def seeded_generate_sequences(
+        generate_chars,
+        tree,
+        seq_len_dist,
+        seed,
+        base_sequence=None
+):
     seed = int(seed)
     rand = random.Random()
     rand.seed(seed)
@@ -32,7 +38,8 @@ def seeded_generate_sequences(generate_chars, tree, seq_len_dist, seed):
         seq_len_dist(py_rand=rand, np_rand=np_rand),
         tree,
         py_rand=rand,
-        np_rand=np_rand
+        np_rand=np_rand,
+        root_states=base_sequence
     )
     return list(res.values())
 
@@ -54,7 +61,9 @@ class Simulation:
 
             taxa: Optional[int] = None,
             out_dir: Optional[Union[str, Path]] = None,
-            jobs: Optional[int] = None
+            jobs: Optional[int] = None,
+
+            taxa_prefix: Optional[str] = None
     ):
         self.count = count
         self.seed = seed
@@ -68,6 +77,16 @@ class Simulation:
         self.taxa = taxa
         self.out_dir = out_dir
         self.jobs = jobs
+        self.taxa_prefix = taxa_prefix
+
+    def _make_seeds(self, count):
+        return self.np_rand.randint(np.iinfo(np.int32).max, size=count)
+
+    def _make_seed(self):
+        return self._make_seeds(1)[0]
+
+    def _make_taxon_namespace(self):
+        return TaxonNamespace([f"{self.taxa_prefix}{i}" for i in range(self.taxa)])
 
     def rand_init(self):
         self.rand = random.Random()
@@ -80,7 +99,11 @@ class Simulation:
 
     def _generate_tree(self):
         logging.debug("Generating tree.")
-        tree = self.tree_generator(py_rand=self.rand, np_rand=self.np_rand)
+        tree = self.tree_generator(
+            py_rand=self.rand,
+            np_rand=self.np_rand,
+            taxon_namespace=self._make_taxon_namespace()
+        )
         return tree
 
     def _generate_coverage(self, i, mat):
@@ -98,8 +121,8 @@ class Simulation:
             count: int = 1,
             jobs: int = 1
     ):
-        seeds = self.np_rand.randint(np.iinfo(np.int32).max, size=count)
-        return Parallel(n_jobs=jobs, backend="loky", return_generator=True)(
+        seeds = self._make_seeds(count)
+        return Parallel(n_jobs=jobs, backend="loky", return_as="generator")(
             delayed(
                 seeded_generate_sequences
             )(self.char_generator, tree, self.seq_len_distribution, seed)
@@ -132,6 +155,17 @@ class Simulation:
             out_files[t.label] = f
         return out_files
 
+    def _name_sequence(self, i: int, mat) -> str:
+        cov = self._generate_coverage(i, mat)
+        # TODO: Maybe allow more generic way of specifying sequence
+        # attributes to generate.
+        return self.seqid_template.format(
+            cov=cov,
+            gene=i,
+            # At some point, we may allow multiple isotigs.
+            iso=1
+        )
+
     def simulate(self) -> tuple[Tree, dict[str, str]]:
         self.rand_init()
         self.out_dir.mkdir(exist_ok=True)
@@ -154,15 +188,7 @@ class Simulation:
             ):
                 # if i%self.config["log_transcript_every"] == 0:
                 #     logging.info(f"Writing transcript {i}")
-                cov = self._generate_coverage(i, mat)
-                # TODO: Maybe allow more generic way of specifying sequence
-                # attributes to generate.
-                seq_id = self.seqid_template.format(
-                    cov=cov,
-                    gene=i,
-                    # At some point, we may allow multiple isotigs.
-                    iso=1
-                )
+                seq_id = self._name_sequence(i, mat)
                 for f, seq in zip(out_files.values(), mat):
                     SeqIO.write(
                         SeqRecord(Seq(str(seq)), id=seq_id, description=""),

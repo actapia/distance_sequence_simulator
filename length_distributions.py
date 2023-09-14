@@ -15,3 +15,8 @@ def match_dist(fit_data):
             len(s) for f in fit_data for s in SeqIO.parse(f, format="fasta")
         )
     )
+
+def constant(x):
+    def inner(*args, **kwargs):
+        return x
+    return inner
