@@ -16,5 +16,8 @@ log_level: DEBUG
 save_tree: "phylogeny.tree"
 seqid_template: "NODE_cov_{cov}_g{gene}_i{iso}"
 separate_dirs: True
-random_cov:
-  max: 10000
+coverage_distribution:
+  name: uniform
+  params:
+    min: 0
+    max: 10000
