@@ -1,5 +1,10 @@
 from simulation_config import SimulationConfig
 
+# This script may be run to perform a simulation using the base Simulation
+# class.
+
+# This is the default configuration to be used when values are not provided by
+# the user.
 default_config = {
     "count": "match",
     "taxa": "match",
