@@ -159,7 +159,7 @@ class DivergenceSimulation(HybridSimulation):
 
     This simulation uses the output from a HybridSimulation as input for a next
     step of the simulation in which the sequences from the hybrids are evolved
-    along new randomly generataed trees to create transcripts for descendent
+    along new randomly generataed trees to create transcripts for descendant
     taxa.
 
     Currently, each new tree must have the same number of extant tips. The new
@@ -261,7 +261,7 @@ class DivergenceSimulation(HybridSimulation):
         class.
 
         Evolution is then simulated for each of the resulting hybrid taxa. For
-        each hybrid taxon, this generates four new descendent taxa.
+        each hybrid taxon, this generates four new descendant taxa.
 
         Returns:
             The generated tree.
