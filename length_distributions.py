@@ -2,11 +2,13 @@ import functools
 import random
 from collections import Counter
 from numbers import Number
-from typing import Any, Iterable, TextIO, Union, Callable
+from typing import Iterable, TextIO, Union, Callable, TypeVar
 
 from Bio import SeqIO
 
-def weighted_choice(weight_dict: dict[Any, Number], rng: random.Random) -> Any:
+T = TypeVar("T")
+
+def weighted_choice(weight_dict: dict[T, Number], rng: random.Random) -> T:
     """Select at random from weight_dict's keys using the values as weights
 
     Parameters:
@@ -41,7 +43,7 @@ def match_dist(fit_data: Iterable[Union[str, TextIO]]) -> Callable[[], int]:
         )
     )
 
-def constant(x: Any) -> Callable[..., Any]:
+def constant(x: T) -> Callable[..., T]:
     """Return a variadic function that returns a specified constant value."""
     def inner(*args, **kwargs):
         return x
