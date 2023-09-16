@@ -1,21 +1,37 @@
-fit_data: ../data2/out/SRR*/transcripts.fasta
+# Extant taxa in the final tree.
+taxa: 16
+# Number of transcripts per taxon.
 count: 50000
+# Random seed (for reproducibility)
 seed: 487
+# The function to use for generating the tree
 tree_generator:
   name: birth_death_tree
   params:
     birth_rate: 1.0
     death_rate: 0.5
+# The function to use for determining the lengths of transcripts.
 seq_len_distribution:
-  name: match
+  name: binomial
+  params:
+    p: 0.1
+    n: 1000
+    loc: 1950
+# The function to use for simulating sequence evolution on the tree.
 char_generator:
   name: hky85
   params:
     mutation_rate: 0.01
+# The lowest log level to display.
 log_level: DEBUG
+# When specified, the simulation saves the generated tree to a file with this
+# name.
 save_tree: "phylogeny.tree"
+# Template for naming transcripts.
 seqid_template: "NODE_cov_{cov}_g{gene}_i{iso}"
+# Whether to put each taxon's output in a separate directory.
 separate_dirs: True
+# The function to use for assigning coverage values to transcripts.
 coverage_distribution:
   name: uniform
   params:

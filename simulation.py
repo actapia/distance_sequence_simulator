@@ -154,7 +154,7 @@ class Simulation:
         self.jobs = jobs
         self.taxa_prefix = taxa_prefix
 
-    def _make_seeds(self, count: int) -> np.NDArray[np.int32]:
+    def _make_seeds(self, count: int) -> np.typing.NDArray[np.int32]:
         """Generate a specified number of integers to be used as PRNG seeds.
 
         Such seeds are necessary for "child" PRNGs used, e.g., in parallel
