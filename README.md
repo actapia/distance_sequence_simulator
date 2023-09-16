@@ -157,7 +157,7 @@ transcript sequence lengths.
 | Function name | Description                                                  | Parameters                                                                                             |
 |---------------|--------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
 | `binomial`    | A binomial distribution.                                     | See [SciPy documentation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binom.html) |
-| `match`       | Match the distribution of sequence lengths for the fit data. (See [`fit_data`](###fit_data).) | None.                                                                                                  |
+| `match`       | Match the distribution of sequence lengths for the fit data. (See [`fit_data`](#fit_data).) | None.                                                                                                  |
 
 ### `char_generator`
 
@@ -262,13 +262,13 @@ and the configuration file options to which they correspond.
 
 | Short name | Long name     | Corresponding option           |
 |------------|---------------|--------------------------------|
-| `-O`       | `--out-dir`   | [`out_dir`](###`out_dir`)     |
-| `-f`       | `--fit-data`  | [`fit_data`](###`fit_data`)   |
-| `-n`       | `--count`     | [`count`](###`count`)         |
-| `-j`       | `--jobs`      | [`jobs`](###`jobs`)           |
-| `-t`       | `--taxa`      | [`taxa`](###`taxa`)           |
-|            | `--log-level` | [`log_level`](###`log_level`) |
-|            | `--seed`      | [`seed`](###`seed`)           |
+| `-O`       | `--out-dir`   | [`out_dir`](#out_dir)     |
+| `-f`       | `--fit-data`  | [`fit_data`](#fit_data)   |
+| `-n`       | `--count`     | [`count`](#count)         |
+| `-j`       | `--jobs`      | [`jobs`](#jobs)           |
+| `-t`       | `--taxa`      | [`taxa`](#taxa)           |
+|            | `--log-level` | [`log_level`](#log_level) |
+|            | `--seed`      | [`seed`](#seed)           |
 
 Additionally, the following two arguments do not correspond to any configuration
 file options.
