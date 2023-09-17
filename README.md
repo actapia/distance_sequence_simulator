@@ -260,8 +260,8 @@ Some options can additionally be specified via command-line arguments to the
 simulation script. The table below describes the accepted command-line arguments
 and the configuration file options to which they correspond. 
 
-| Short name | Long name     | Corresponding option           |
-|------------|---------------|--------------------------------|
+| Short name | Long name     | Corresponding option      |
+|------------|---------------|---------------------------|
 | `-O`       | `--out-dir`   | [`out_dir`](#out_dir)     |
 | `-f`       | `--fit-data`  | [`fit_data`](#fit_data)   |
 | `-n`       | `--count`     | [`count`](#count)         |
@@ -281,3 +281,9 @@ file options.
 The `--help` option may be used to print a summary of these accepted
 command-line arguments, but the help does not currently explain the accepted
 configuration file options.
+
+## Additional documentation
+
+The following additional documents may be helpful:
+
+* [Hybridization and divergence simulation](docs/hybrid_divergence.md)
