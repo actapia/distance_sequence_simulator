@@ -6,16 +6,16 @@ code for a custom simulation.
 
 The hybridization and divergence simulation involves the following steps:
 
-	1. Generate a phylogenetic tree and simulate evolution of randomly generated
-       sequences on the tree. (This is the same as the base simulation.)
+1. Generate a phylogenetic tree and simulate evolution of randomly generated
+sequences on the tree. (This is the same as the base simulation.)
 	   
-	2. Selection of random disjoint taxon sets of specified size to "hybridize."
-       Transcripts of the taxa in the set are combined into a single file,
-       renaming the transcripts to identify their origin. This produces a new
-       "hybrid" taxon.
+2. Selection of random disjoint taxon sets of specified size to "hybridize."
+Transcripts of the taxa in the set are combined into a single file,
+renaming the transcripts to identify their origin. This produces a new
+"hybrid" taxon.
 	   
-	3. Further evolution of the hybrid taxa by generating a new tree for each
-       hybrid and simulating evolution of the transcripts along that new tree.
+3. Further evolution of the hybrid taxa by generating a new tree for each
+hybrid and simulating evolution of the transcripts along that new tree.
 	   
 The intermediate results of the first two steps are saved to their own
 directories. New configuration options may be used to specify the number of taxa

@@ -15,8 +15,9 @@ This program is designed to be configurable via a combination of command-line
 arguments and a YAML configuration file&mdash;basic usage of the program should
 not require familiarity with Python or the source code of this program. However,
 this sequence simulator is also designed to be extensible through custom
-functions and simulation classes. For now, please refer to the
-comments/docstrings in the source code to understand how to extend the
+functions and simulation classes. Please refer to the c0omments/docstrings in
+the source code and the [Creating custom
+simulations](docs/custom_simulations.md) guide to understand how to extend the
 capabilities of this program to suit your needs.
 
 ## Requirements
@@ -287,3 +288,4 @@ configuration file options.
 The following additional documents may be helpful:
 
 * [Hybridization and divergence simulation](docs/hybrid_divergence.md)
+* [Creating custom simulations](docs/custom_simulations.md)
